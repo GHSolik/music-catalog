@@ -1,0 +1,44 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Music Catalog{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-content">
+
+            <a href="{% url 'home' %}" class="logo">
+                Music Catalog
+            </a>
+
+            <nav class="navigation">
+                <a href="{% url 'home' %}">Главная</a>
+
+                <!-- Ссылки на каталог и аккаунты добавим позже -->
+            </nav>
+
+        </div>
+    </header>
+
+    <main class="container main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Music Catalog — учебный проект на Django</p>
+        </div>
+    </footer>
+
+</body>
+</html>
