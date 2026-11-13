@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+
+{% block title %}Исполнители — Music Catalog{% endblock %}
+
+{% block content %}
+
+<h1>Исполнители</h1>
+
+{% if artists %}
+    <ul>
+        {% for artist in artists %}
+            <li>
+                <a href="{% url 'artist_detail' artist.pk %}">
+                    {{ artist.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Пока в каталоге нет исполнителей.</p>
+{% endif %}
+
+{% endblock %}

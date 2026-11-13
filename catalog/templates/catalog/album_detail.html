@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ album.title }} — Music Catalog{% endblock %}
+
+{% block content %}
+
+<h1>{{ album.title }}</h1>
+
+<p>
+    Исполнитель:
+    <a href="{% url 'artist_detail' album.artist.pk %}">
+        {{ album.artist.name }}
+    </a>
+</p>
+
+{% if album.description %}
+    <p>{{ album.description|linebreaksbr }}</p>
+{% endif %}
+
+<p>Подробная страница альбома находится в разработке.</p>
+
+{% endblock %}

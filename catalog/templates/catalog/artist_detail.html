@@ -1,0 +1,40 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ artist.name }} — Music Catalog{% endblock %}
+
+{% block content %}
+
+<h1>{{ artist.name }}</h1>
+
+{% if artist.image %}
+    <img src="{{ artist.image.url }}"
+         alt="{{ artist.name }}"
+         width="250">
+{% endif %}
+
+{% if artist.description %}
+    <p>{{ artist.description|linebreaksbr }}</p>
+{% endif %}
+
+<h2>Дискография</h2>
+
+{% if albums %}
+    <ul>
+        {% for album in albums %}
+            <li>
+                <a href="{% url 'album_detail' album.pk %}">
+                    {{ album.title }}
+                </a>
+
+                {% if album.release_date %}
+                    ({{ album.release_date|date:"Y" }})
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Альбомы пока не добавлены.</p>
+{% endif %}
+
+{% endblock %}

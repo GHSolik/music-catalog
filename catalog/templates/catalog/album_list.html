@@ -1,0 +1,28 @@
+
+{% extends "base.html" %}
+
+{% block title %}Альбомы — Music Catalog{% endblock %}
+
+{% block content %}
+
+<h1>Альбомы</h1>
+
+{% if albums %}
+    <ul>
+        {% for album in albums %}
+            <li>
+                <a href="{% url 'album_detail' album.pk %}">
+                    {{ album.title }}
+                </a>
+                —
+                <a href="{% url 'artist_detail' album.artist.pk %}">
+                    {{ album.artist.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Пока в каталоге нет альбомов.</p>
+{% endif %}
+
+{% endblock %}
