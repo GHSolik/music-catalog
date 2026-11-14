@@ -1,5 +1,8 @@
+import hashlib
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
 
 from .models import Artist, Album
 
@@ -16,9 +19,32 @@ def home(request):
         .order_by("-pk")[:6]
     )
 
+    # Выбираем альбом дня
+    album_of_the_day = None
+
+    album_ids = list(
+        Album.objects.order_by("pk").values_list("pk", flat=True)
+    )
+
+    if album_ids:
+        today = timezone.localdate().isoformat()
+
+        date_hash = hashlib.sha256(
+            today.encode("utf-8")
+        ).hexdigest()
+
+        index = int(date_hash, 16) % len(album_ids)
+
+        album_of_the_day = (
+            Album.objects
+            .select_related("artist")
+            .get(pk=album_ids[index])
+        )
+
     return render(request, "catalog/home.html", {
         "latest_albums": latest_albums,
         "featured_artists": featured_artists,
+        "album_of_the_day": album_of_the_day,
     })
 
 
@@ -100,3 +126,11 @@ def search(request):
         "artists": artists,
         "albums": albums,
     })
+
+def random_album(request):
+    album = Album.objects.order_by("?").first()
+
+    if album is None:
+        return redirect("album_list")
+
+    return redirect("album_detail", pk=album.pk)

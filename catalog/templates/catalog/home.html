@@ -28,6 +28,78 @@
 
 </section>
 
+
+<section class="album-of-day">
+
+    <div class="album-of-day-header">
+        <h2 class="section-title">Альбом дня</h2>
+        <span class="daily-label">Музыкальная рекомендация</span>
+    </div>
+
+    {% if album_of_the_day %}
+
+        <div class="daily-album-content">
+
+            <a href="{% url 'album_detail' album_of_the_day.pk %}"
+               class="daily-album-cover">
+
+                {% if album_of_the_day.cover %}
+                    <img
+                        src="{{ album_of_the_day.cover.url }}"
+                        alt="Обложка альбома {{ album_of_the_day.title }}"
+                        loading="lazy"
+                    >
+                {% else %}
+                    <div class="card-placeholder">♫</div>
+                {% endif %}
+
+            </a>
+
+            <div class="daily-album-info">
+
+                <h3>{{ album_of_the_day.title }}</h3>
+
+                <p class="daily-artist">
+                    {{ album_of_the_day.artist.name }}
+                </p>
+
+                {% if album_of_the_day.release_date %}
+                    <p class="detail-meta">
+                        {{ album_of_the_day.release_date|date:"Y" }}
+                    </p>
+                {% endif %}
+
+                <p class="daily-description">
+                    Не знаешь, что послушать сегодня?
+                    Попробуй этот альбом!
+                </p>
+
+                <div class="hero-actions">
+                    <a href="{% url 'album_detail' album_of_the_day.pk %}"
+                       class="button">
+                        Посмотреть альбом
+                    </a>
+
+                    <a href="{% url 'random_album' %}"
+                       class="button button-secondary">
+                        Мне повезёт!
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+            <p>Пока нет альбомов для рекомендаций.</p>
+        </div>
+
+    {% endif %}
+
+</section>
+
 <section class="home-section">
 
     <div class="home-section-header">

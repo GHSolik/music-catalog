@@ -274,7 +274,6 @@ p {
     text-underline-offset: 4px;
 }
 
-
 /* Поиск */
 
 .search-form {
@@ -311,6 +310,70 @@ p {
     .search-form {
         flex-direction: column;
     }
+}
+
+/* Альбом дня */
+
+.album-of-day {
+    margin-bottom: 56px;
+    padding: 32px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.album-of-day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.album-of-day-header .section-title {
+    margin-bottom: 0;
+}
+
+.daily-label {
+    color: var(--accent-hover);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.daily-album-content {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    align-items: center;
+    gap: 32px;
+}
+
+.daily-album-cover {
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius);
+}
+
+.daily-album-cover img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.daily-album-info h3 {
+    margin: 0 0 8px;
+    font-size: 1.8rem;
+}
+
+.daily-artist {
+    color: var(--accent-hover);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.daily-description {
+    margin: 20px 0;
+    color: var(--text-muted);
 }
 
 /* ==========================================
@@ -618,6 +681,11 @@ p {
     .artist-detail .card-placeholder {
         max-width: 100%;
     }
+
+    .daily-album-content {
+        grid-template-columns: 180px minmax(0, 1fr);
+        gap: 24px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -666,6 +734,25 @@ p {
     .track-item:has(.track-audio) {
         padding-top: 12px;
         padding-bottom: 12px;
+    }
+
+    .album-of-day {
+        padding: 20px;
+    }
+
+    .album-of-day-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .daily-album-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .daily-album-info h3 {
+        font-size: 1.5rem;
     }
 }
 
