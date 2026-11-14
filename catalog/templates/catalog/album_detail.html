@@ -1,23 +1,72 @@
-
 {% extends "base.html" %}
 
 {% block title %}{{ album.title }} — Music Catalog{% endblock %}
 
 {% block content %}
 
-<h1>{{ album.title }}</h1>
+<section class="album-detail">
 
-<p>
-    Исполнитель:
-    <a href="{% url 'artist_detail' album.artist.pk %}">
-        {{ album.artist.name }}
-    </a>
-</p>
+    {% if album.cover %}
+        <img
+            src="{{ album.cover.url }}"
+            alt="Обложка альбома {{ album.title }}"
+            class="album-cover"
+        >
+    {% endif %}
 
-{% if album.description %}
-    <p>{{ album.description|linebreaksbr }}</p>
-{% endif %}
+    <div class="album-info">
 
-<p>Подробная страница альбома находится в разработке.</p>
+        <h1>{{ album.title }}</h1>
+
+        <p>
+            Исполнитель:
+            <a href="{% url 'artist_detail' album.artist.pk %}">
+                {{ album.artist.name }}
+            </a>
+        </p>
+
+        {% if album.release_date %}
+            <p>
+                Дата выхода:
+                {{ album.release_date|date:"d.m.Y" }}
+            </p>
+        {% endif %}
+
+        {% if album.genre %}
+            <p>Жанр: {{ album.genre }}</p>
+        {% endif %}
+
+        {% if album.description %}
+            <h2>Об альбоме</h2>
+            <p>{{ album.description|linebreaksbr }}</p>
+        {% endif %}
+
+    </div>
+
+</section>
+
+<section class="tracklist">
+
+    <h2>Список композиций</h2>
+
+    {% if tracks %}
+        <ol>
+            {% for track in tracks %}
+                <li>
+                    <span>{{ track.title }}</span>
+
+                    {% if track.duration %}
+                        <span>
+                            {{ track.duration }}
+                        </span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <p>Композиции пока не добавлены.</p>
+    {% endif %}
+
+</section>
 
 {% endblock %}

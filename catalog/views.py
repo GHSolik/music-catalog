@@ -38,10 +38,11 @@ def album_list(request):
 
 def album_detail(request, pk):
     album = get_object_or_404(
-        Album.objects.select_related("artist"),
+        Album.objects.select_related("artist").prefetch_related("tracks"),
         pk=pk
     )
 
     return render(request, "catalog/album_detail.html", {
         "album": album,
+        "tracks": album.tracks.all(),
     })

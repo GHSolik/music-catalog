@@ -11,34 +11,44 @@
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body>
 
-    <header class="site-header">
-        <div class="container header-content">
+<header class="site-header">
+    <div class="container header-content">
 
-            <a href="{% url 'home' %}" class="logo">
-                Music Catalog
-            </a>
+        <a href="{% url 'home' %}" class="site-logo">
+            <span class="vinyl-logo" aria-hidden="true"></span>
+            <span>Music<span class="accent">Catalog</span></span>
+        </a>
 
-            <nav class="navigation">
-                <a href="{% url 'home' %}">Главная</a>
-                <a href="{% url 'artist_list' %}">Исполнители</a>
-                <a href="{% url 'album_list' %}">Альбомы</a>
-            </nav>
+        <nav class="main-nav" aria-label="Основная навигация">
+            <a href="{% url 'home' %}">Главная</a>
+            <a href="{% url 'artist_list' %}">Исполнители</a>
+            <a href="{% url 'album_list' %}">Альбомы</a>
+        </nav>
 
+        <div class="header-actions">
+            {% block header_actions %}
+            {% endblock %}
         </div>
-    </header>
 
-    <main class="container main-content">
+    </div>
+</header>
+
+<main class="site-main">
+    <div class="container">
         {% block content %}
         {% endblock %}
-    </main>
+    </div>
+</main>
 
-    <footer class="site-footer">
-        <div class="container">
-            <p>Music Catalog — учебный проект на Django</p>
-        </div>
-    </footer>
+<footer class="site-footer">
+    <div class="container footer-content">
+        <p>Music Catalog — музыкальная энциклопедия</p>
+        <p>2026</p>
+    </div>
+</footer>
 
 </body>
 </html>
