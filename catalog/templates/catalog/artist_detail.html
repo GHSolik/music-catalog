@@ -13,6 +13,17 @@
          width="250">
 {% endif %}
 
+
+{% if artist.created_by %}
+    <p>
+        Добавил пользователь:
+        <strong>{{ artist.created_by.username }}</strong>
+    </p>
+{% else %}
+    <p>Автор записи неизвестен</p>
+{% endif %}
+
+
 {% if artist.description %}
     <p>{{ artist.description|linebreaksbr }}</p>
 {% endif %}
