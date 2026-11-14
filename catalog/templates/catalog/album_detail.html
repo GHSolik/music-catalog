@@ -97,6 +97,17 @@
                         {% endif %}
                     </span>
 
+                    {% if track.audio_file %}
+                        <audio
+                            class="track-audio"
+                            controls
+                            preload="none"
+                            src="{{ track.audio_file.url }}"
+                        >
+                            Ваш браузер не поддерживает воспроизведение аудио.
+                        </audio>
+                    {% endif %}
+
                 </li>
 
             {% endfor %}
@@ -124,7 +135,6 @@
 {% if user.is_authenticated %}
     {% if perms.catalog.change_album or perms.catalog.delete_album %}
         <section class="content-management">
-
             <h2 class="section-title">Управление альбомом</h2>
 
             {% if perms.catalog.change_album %}
@@ -142,9 +152,22 @@
                     </a>
                 </p>
             {% endif %}
-
         </section>
     {% endif %}
 {% endif %}
+
+<script>
+    const audioPlayers = document.querySelectorAll(".track-audio");
+
+    audioPlayers.forEach(function (currentPlayer) {
+        currentPlayer.addEventListener("play", function () {
+            audioPlayers.forEach(function (otherPlayer) {
+                if (otherPlayer !== currentPlayer) {
+                    otherPlayer.pause();
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}

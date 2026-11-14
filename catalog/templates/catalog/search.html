@@ -1,0 +1,103 @@
+
+{% extends "base.html" %}
+
+{% block title %}Поиск — Music Catalog{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <h1>Поиск по каталогу</h1>
+
+    <form action="{% url 'search' %}" method="get" class="search-form">
+        <input
+            type="search"
+            name="q"
+            value="{{ query }}"
+            placeholder="Исполнитель или альбом..."
+            aria-label="Поисковый запрос"
+            required
+        >
+        <button type="submit" class="button">Найти</button>
+    </form>
+</section>
+
+{% if query %}
+
+    <p class="page-subtitle">
+        Результаты поиска по запросу «{{ query }}»
+    </p>
+
+    {% if artists or albums %}
+
+        {% if artists %}
+            <section class="home-section">
+                <h2 class="section-title">Исполнители</h2>
+
+                <div class="card-grid">
+                    {% for artist in artists %}
+                        <a href="{% url 'artist_detail' artist.pk %}" class="catalog-card">
+
+                            {% if artist.image %}
+                                <img
+                                    src="{{ artist.image.url }}"
+                                    alt="{{ artist.name }}"
+                                    class="card-image"
+                                    loading="lazy"
+                                >
+                            {% else %}
+                                <div class="card-placeholder">♪</div>
+                            {% endif %}
+
+                            <div class="card-content">
+                                <h3 class="card-title">{{ artist.name }}</h3>
+                            </div>
+
+                        </a>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% if albums %}
+            <section class="home-section">
+                <h2 class="section-title">Альбомы</h2>
+
+                <div class="card-grid">
+                    {% for album in albums %}
+                        <a href="{% url 'album_detail' album.pk %}" class="catalog-card">
+
+                            {% if album.cover %}
+                                <img
+                                    src="{{ album.cover.url }}"
+                                    alt="Обложка альбома {{ album.title }}"
+                                    class="card-image"
+                                    loading="lazy"
+                                >
+                            {% else %}
+                                <div class="card-placeholder">♫</div>
+                            {% endif %}
+
+                            <div class="card-content">
+                                <h3 class="card-title">{{ album.title }}</h3>
+                                <p class="card-meta">{{ album.artist.name }}</p>
+                            </div>
+
+                        </a>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+
+    {% else %}
+        <div class="empty-state">
+            <p>По вашему запросу ничего не найдено.</p>
+        </div>
+    {% endif %}
+
+{% else %}
+    <div class="empty-state">
+        <p>Введите название исполнителя или альбома.</p>
+    </div>
+{% endif %}
+
+{% endblock %}
