@@ -1,4 +1,4 @@
-
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 
 from .models import Artist, Album
@@ -77,4 +77,26 @@ def album_detail(request, pk):
         "tracks": tracks,
         "total_duration": total_duration,
         "has_duration": any(track.duration is not None for track in tracks),
+    })
+
+def search(request):
+    query = request.GET.get("q", "").strip()
+
+    artists = Artist.objects.none()
+    albums = Album.objects.none()
+
+    if query:
+        artists = Artist.objects.filter(
+            name__icontains=query
+        ).order_by("name")
+
+        albums = Album.objects.select_related("artist").filter(
+            Q(title__icontains=query) |
+            Q(artist__name__icontains=query)
+        ).order_by("artist__name", "title")
+
+    return render(request, "catalog/search.html", {
+        "query": query,
+        "artists": artists,
+        "albums": albums,
     })
