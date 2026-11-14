@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+
+{% block title %}Добавление альбома{% endblock %}
+
+{% block content %}
+    <h1>Добавление альбома</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Сохранить альбом
+        </button>
+    </form>
+
+    <p>
+        <a href="{% url 'album_list' %}">
+            Вернуться к альбомам
+        </a>
+    </p>
+{% endblock %}

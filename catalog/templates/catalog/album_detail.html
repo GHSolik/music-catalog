@@ -18,6 +18,30 @@
     <p>{{ album.description|linebreaksbr }}</p>
 {% endif %}
 
-<p>Подробная страница альбома находится в разработке.</p>
+<h2>Список треков</h2>
+
+{% if album.tracks.exists %}
+    <ol>
+        {% for track in album.tracks.all %}
+            <li>
+                {{ track.title }}
+
+                {% if track.duration %}
+                    — {{ track.duration }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ol>
+{% else %}
+    <p>В этом альбоме пока нет треков.</p>
+{% endif %}
+
+{% if user.is_authenticated %}
+    <p>
+        <a href="{% url 'track_add' album.pk %}">
+            Добавить трек
+        </a>
+    </p>
+{% endif %}
 
 {% endblock %}

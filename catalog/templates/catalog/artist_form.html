@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+
+{% block title %}Добавление исполнителя{% endblock %}
+
+{% block content %}
+    <h1>Добавление исполнителя</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Сохранить исполнителя
+        </button>
+    </form>
+
+    <p>
+        <a href="{% url 'artist_list' %}">
+            Вернуться к исполнителям
+        </a>
+    </p>
+{% endblock %}
