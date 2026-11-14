@@ -1,0 +1,28 @@
+
+{% extends "base.html" %}
+
+{% block title %}Добавление трека{% endblock %}
+
+{% block content %}
+    <h1>Добавление трека</h1>
+
+    <p>
+        Альбом: <strong>{{ album.title }}</strong>
+    </p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Сохранить трек
+        </button>
+    </form>
+
+    <p>
+        <a href="{% url 'album_detail' album.pk %}">
+            Вернуться к альбому
+        </a>
+    </p>
+{% endblock %}

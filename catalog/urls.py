@@ -1,4 +1,5 @@
-from django.urls import path
+
+from django.urls import path, include
 
 from . import views
 
@@ -13,4 +14,5 @@ urlpatterns = [
     path("albums/<int:pk>/", views.album_detail, name="album_detail"),
 
     path("search/", views.search, name="search"),
+    path("", include("catalog.management_urls")),
 ]

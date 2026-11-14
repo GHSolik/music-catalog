@@ -23,6 +23,17 @@
 
         <h1>{{ artist.name }}</h1>
 
+        {% if artist.created_by %}
+            <p class="detail-meta">
+                Добавил пользователь:
+                <strong>{{ artist.created_by.username }}</strong>
+            </p>
+        {% else %}
+            <p class="detail-meta">
+                Автор записи неизвестен
+            </p>
+        {% endif %}
+
         {% if artist.description %}
             <div class="detail-description">
                 {{ artist.description|linebreaks }}
@@ -97,6 +108,42 @@
 
     {% endif %}
 
+    {% if user.is_authenticated %}
+        <p>
+            <a href="{% url 'album_add' %}">
+                Добавить альбом
+            </a>
+        </p>
+    {% endif %}
+
 </section>
+
+{% if user.is_authenticated %}
+    {% if perms.catalog.change_artist or perms.catalog.delete_artist %}
+        <section class="content-management">
+
+            <h2 class="section-title">
+                Управление исполнителем
+            </h2>
+
+            {% if perms.catalog.change_artist %}
+                <p>
+                    <a href="{% url 'artist_edit' artist.pk %}">
+                        Редактировать исполнителя
+                    </a>
+                </p>
+            {% endif %}
+
+            {% if perms.catalog.delete_artist %}
+                <p>
+                    <a href="{% url 'artist_delete' artist.pk %}">
+                        Удалить исполнителя
+                    </a>
+                </p>
+            {% endif %}
+
+        </section>
+    {% endif %}
+{% endif %}
 
 {% endblock %}

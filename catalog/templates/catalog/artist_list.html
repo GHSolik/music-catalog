@@ -12,6 +12,16 @@
     </p>
 </div>
 
+
+{% if user.is_authenticated %}
+    <p>
+        <a href="{% url 'artist_add' %}">
+            Добавить исполнителя
+        </a>
+    </p>
+{% endif %}
+
+
 {% if artists %}
 
     <div class="card-grid">

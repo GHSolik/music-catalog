@@ -1,7 +1,7 @@
 
 {% extends "base.html" %}
 
-{% block title %}{{ album.title }} — Music Catalog{% endblock %}
+{% block title %}{{ album.title }}{% endblock %}
 
 {% block content %}
 
@@ -50,8 +50,12 @@
 
         {% if album.created_by %}
             <p class="detail-meta">
-                Добавил:
-                {{ album.created_by.username }}
+                Добавил пользователь:
+                <strong>{{ album.created_by.username }}</strong>
+            </p>
+        {% else %}
+            <p class="detail-meta">
+                Автор записи неизвестен
             </p>
         {% endif %}
 
@@ -118,7 +122,39 @@
 
     {% endif %}
 
+    {% if user.is_authenticated %}
+        <p>
+            <a href="{% url 'track_add' album.pk %}">
+                Добавить трек
+            </a>
+        </p>
+    {% endif %}
+
 </section>
+
+{% if user.is_authenticated %}
+    {% if perms.catalog.change_album or perms.catalog.delete_album %}
+        <section class="content-management">
+            <h2 class="section-title">Управление альбомом</h2>
+
+            {% if perms.catalog.change_album %}
+                <p>
+                    <a href="{% url 'album_edit' album.pk %}">
+                        Редактировать альбом
+                    </a>
+                </p>
+            {% endif %}
+
+            {% if perms.catalog.delete_album %}
+                <p>
+                    <a href="{% url 'album_delete' album.pk %}">
+                        Удалить альбом
+                    </a>
+                </p>
+            {% endif %}
+        </section>
+    {% endif %}
+{% endif %}
 
 <script>
     const audioPlayers = document.querySelectorAll(".track-audio");
