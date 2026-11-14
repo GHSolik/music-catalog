@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+
+{% block title %}Подтверждение удаления{% endblock %}
+
+{% block content %}
+
+<h1>Подтверждение удаления</h1>
+
+<p>
+    Вы действительно хотите удалить
+    {{ object_type }} <strong>{{ object }}</strong>?
+</p>
+
+<p>
+    <strong>Внимание!</strong>
+    Это действие нельзя отменить.
+    Связанные записи также могут быть удалены.
+</p>
+
+<form method="post">
+    {% csrf_token %}
+
+    <button type="submit">
+        Да, удалить
+    </button>
+</form>
+
+<p>
+    <a href="{% url cancel_url object.pk %}">
+        Отмена
+    </a>
+</p>
+
+{% endblock %}
