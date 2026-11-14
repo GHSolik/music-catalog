@@ -1,82 +1,150 @@
 
 {% extends "base.html" %}
 
-{% block title %}{{ album.title }} — Music Catalog{% endblock %}
+{% block title %}{{ album.title }}{% endblock %}
 
 {% block content %}
 
-<h1>{{ album.title }}</h1>
+<section class="album-detail">
 
-<p>
-    Исполнитель:
-    <a href="{% url 'artist_detail' album.artist.pk %}">
-        {{ album.artist.name }}
-    </a>
-</p>
+    {% if album.cover %}
+        <img
+            src="{{ album.cover.url }}"
+            alt="Обложка альбома {{ album.title }}"
+            class="album-cover"
+        >
+    {% else %}
+        <div class="card-placeholder album-cover">
+            ♫
+        </div>
+    {% endif %}
 
+    <div class="album-info">
 
-{% if album.created_by %}
-    <p>
-        Добавил пользователь:
-        <strong>{{ album.created_by.username }}</strong>
-    </p>
-{% else %}
-    <p>Автор записи неизвестен</p>
-{% endif %}
+        <h1>{{ album.title }}</h1>
 
+        <p class="detail-meta">
+            Исполнитель:
+            <a href="{% url 'artist_detail' album.artist.pk %}">
+                {{ album.artist.name }}
+            </a>
+        </p>
 
-{% if album.description %}
-    <p>{{ album.description|linebreaksbr }}</p>
-{% endif %}
+        {% if album.release_date %}
+            <p class="detail-meta">
+                Дата выхода: {{ album.release_date|date:"d.m.Y" }}
+            </p>
+        {% endif %}
 
-<h2>Список треков</h2>
+        {% if album.genre %}
+            <p class="detail-meta">
+                Жанр: {{ album.genre }}
+            </p>
+        {% endif %}
 
-{% if album.tracks.exists %}
-    <ol>
-        {% for track in album.tracks.all %}
-            <li>
-                {{ track.title }}
+        {% if has_duration %}
+            <p class="detail-meta">
+                Общая длительность: {{ total_duration }}
+            </p>
+        {% endif %}
 
-                {% if track.duration %}
-                    — {{ track.duration }}
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ol>
-{% else %}
-    <p>В этом альбоме пока нет треков.</p>
-{% endif %}
+        {% if album.created_by %}
+            <p class="detail-meta">
+                Добавил пользователь:
+                <strong>{{ album.created_by.username }}</strong>
+            </p>
+        {% else %}
+            <p class="detail-meta">
+                Автор записи неизвестен
+            </p>
+        {% endif %}
 
-{% if user.is_authenticated %}
-    <p>
-        <a href="{% url 'track_add' album.pk %}">
-            Добавить трек
-        </a>
-    </p>
-{% endif %}
+        {% if album.description %}
+            <div class="detail-description">
+                {{ album.description|linebreaks }}
+            </div>
+        {% endif %}
 
+    </div>
+
+</section>
+
+<section class="tracklist">
+
+    <h2 class="section-title">Список композиций</h2>
+
+    {% if tracks %}
+
+        <ol class="track-list">
+
+            {% for track in tracks %}
+
+                <li class="track-item">
+
+                    <span class="track-number">
+                        {{ track.track_number }}.
+                    </span>
+
+                    <span class="track-title">
+                        {{ track.title }}
+                    </span>
+
+                    <span class="track-duration">
+                        {% if track.duration %}
+                            {{ track.duration }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </span>
+
+                </li>
+
+            {% endfor %}
+
+        </ol>
+
+    {% else %}
+
+        <div class="empty-state">
+            <p>Композиции пока не добавлены.</p>
+        </div>
+
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <p>
+            <a href="{% url 'track_add' album.pk %}">
+                Добавить трек
+            </a>
+        </p>
+    {% endif %}
+
+</section>
 
 {% if user.is_authenticated %}
     {% if perms.catalog.change_album or perms.catalog.delete_album %}
-        <h2>Управление альбомом</h2>
-    {% endif %}
+        <section class="content-management">
 
-    {% if perms.catalog.change_album %}
-        <p>
-            <a href="{% url 'album_edit' album.pk %}">
-                Редактировать альбом
-            </a>
-        </p>
-    {% endif %}
+            <h2 class="section-title">Управление альбомом</h2>
 
-    {% if perms.catalog.delete_album %}
-        <p>
-            <a href="{% url 'album_delete' album.pk %}">
-                Удалить альбом
-            </a>
-        </p>
+            {% if perms.catalog.change_album %}
+                <p>
+                    <a href="{% url 'album_edit' album.pk %}">
+                        Редактировать альбом
+                    </a>
+                </p>
+            {% endif %}
+
+            {% if perms.catalog.delete_album %}
+                <p>
+                    <a href="{% url 'album_delete' album.pk %}">
+                        Удалить альбом
+                    </a>
+                </p>
+            {% endif %}
+
+        </section>
     {% endif %}
 {% endif %}
-
 
 {% endblock %}
