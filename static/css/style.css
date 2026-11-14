@@ -269,6 +269,10 @@ p {
     font-size: 1.1rem;
 }
 
+.catalog-card:hover .card-title {
+    color: var(--accent-hover);
+}
+
 .card-meta {
     margin: 0;
     color: var(--text-muted);
@@ -288,6 +292,12 @@ p {
     margin-bottom: 48px;
 }
 
+.artist-detail .card-placeholder {
+    width: 100%;
+    max-width: 280px;
+    aspect-ratio: 1 / 1;
+}
+
 .artist-image,
 .album-cover {
     width: 100%;
@@ -298,6 +308,11 @@ p {
     border: 1px solid var(--border);
 
     background: var(--surface);
+}
+
+.album-detail .card-placeholder {
+    width: 100%;
+    aspect-ratio: 1 / 1;
 }
 
 .artist-info h1,
@@ -477,8 +492,9 @@ p {
     }
 
     .artist-image,
-    .album-cover {
-        max-width: 320px;
+    .album-cover,
+    .artist-detail .card-placeholder {
+        max-width: 100%;
     }
 }
 

@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}{{ album.title }} — Music Catalog{% endblock %}
@@ -12,13 +13,17 @@
             alt="Обложка альбома {{ album.title }}"
             class="album-cover"
         >
+    {% else %}
+        <div class="card-placeholder album-cover">
+            ♫
+        </div>
     {% endif %}
 
     <div class="album-info">
 
         <h1>{{ album.title }}</h1>
 
-        <p>
+        <p class="detail-meta">
             Исполнитель:
             <a href="{% url 'artist_detail' album.artist.pk %}">
                 {{ album.artist.name }}
@@ -26,19 +31,27 @@
         </p>
 
         {% if album.release_date %}
-            <p>
-                Дата выхода:
-                {{ album.release_date|date:"d.m.Y" }}
+            <p class="detail-meta">
+                Дата выхода: {{ album.release_date|date:"d.m.Y" }}
             </p>
         {% endif %}
 
         {% if album.genre %}
-            <p>Жанр: {{ album.genre }}</p>
+            <p class="detail-meta">
+                Жанр: {{ album.genre }}
+            </p>
+        {% endif %}
+
+        {% if has_duration %}
+            <p class="detail-meta">
+                Общая длительность: {{ total_duration }}
+            </p>
         {% endif %}
 
         {% if album.description %}
-            <h2>Об альбоме</h2>
-            <p>{{ album.description|linebreaksbr }}</p>
+            <div class="detail-description">
+                {{ album.description|linebreaks }}
+            </div>
         {% endif %}
 
     </div>
@@ -47,24 +60,44 @@
 
 <section class="tracklist">
 
-    <h2>Список композиций</h2>
+    <h2 class="section-title">Список композиций</h2>
 
     {% if tracks %}
-        <ol>
-            {% for track in tracks %}
-                <li>
-                    <span>{{ track.title }}</span>
 
-                    {% if track.duration %}
-                        <span>
+        <ol class="track-list">
+
+            {% for track in tracks %}
+
+                <li class="track-item">
+
+                    <span class="track-number">
+                        {{ track.track_number }}.
+                    </span>
+
+                    <span class="track-title">
+                        {{ track.title }}
+                    </span>
+
+                    <span class="track-duration">
+                        {% if track.duration %}
                             {{ track.duration }}
-                        </span>
-                    {% endif %}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </span>
+
                 </li>
+
             {% endfor %}
+
         </ol>
+
     {% else %}
-        <p>Композиции пока не добавлены.</p>
+
+        <div class="empty-state">
+            <p>Композиции пока не добавлены.</p>
+        </div>
+
     {% endif %}
 
 </section>

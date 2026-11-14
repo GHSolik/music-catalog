@@ -42,7 +42,25 @@ def album_detail(request, pk):
         pk=pk
     )
 
+    tracks = album.tracks.all()
+
+    total_seconds = 0
+
+    for track in tracks:
+        if track.duration:
+            total_seconds += int(track.duration.total_seconds())
+
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    if hours > 0:
+        total_duration = f"{hours}:{minutes:02d}:{seconds:02d}"
+    else:
+        total_duration = f"{minutes}:{seconds:02d}"
+
     return render(request, "catalog/album_detail.html", {
         "album": album,
-        "tracks": album.tracks.all(),
+        "tracks": tracks,
+        "total_duration": total_duration,
+        "has_duration": any(track.duration is not None for track in tracks),
     })

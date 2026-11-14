@@ -5,20 +5,54 @@
 
 {% block content %}
 
-<h1>Исполнители</h1>
+<div class="page-header">
+    <h1>Исполнители</h1>
+    <p class="page-subtitle">
+        Музыканты и группы, представленные в нашем каталоге.
+    </p>
+</div>
 
 {% if artists %}
-    <ul>
+
+    <div class="card-grid">
+
         {% for artist in artists %}
-            <li>
-                <a href="{% url 'artist_detail' artist.pk %}">
-                    {{ artist.name }}
-                </a>
-            </li>
+
+            <a href="{% url 'artist_detail' artist.pk %}"
+               class="catalog-card">
+
+                {% if artist.image %}
+                    <img
+                        src="{{ artist.image.url }}"
+                        alt="{{ artist.name }}"
+                        class="card-image"
+                        loading="lazy"
+                    >
+                {% else %}
+                    <div class="card-placeholder">
+                        ♪
+                    </div>
+                {% endif %}
+
+                <div class="card-content">
+                    <h2 class="card-title">
+                        {{ artist.name }}
+                    </h2>
+                    <p class="card-meta">Исполнитель</p>
+                </div>
+
+            </a>
+
         {% endfor %}
-    </ul>
+
+    </div>
+
 {% else %}
-    <p>Пока в каталоге нет исполнителей.</p>
+
+    <div class="empty-state">
+        <p>Пока в каталоге нет исполнителей.</p>
+    </div>
+
 {% endif %}
 
 {% endblock %}
