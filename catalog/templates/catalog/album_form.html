@@ -1,24 +1,38 @@
 
 {% extends "base.html" %}
 
-{% block title %}Добавление альбома{% endblock %}
+{% block title %}
+    {% if is_edit %}Редактирование альбома{% else %}Добавление альбома{% endif %}
+{% endblock %}
 
 {% block content %}
-    <h1>Добавление альбома</h1>
 
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+<h1>
+    {% if is_edit %}
+        Редактирование альбома
+    {% else %}
+        Добавление альбома
+    {% endif %}
+</h1>
 
-        {{ form.as_p }}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
 
-        <button type="submit">
-            Сохранить альбом
-        </button>
-    </form>
+    {{ form.as_p }}
 
-    <p>
+    <button type="submit">Сохранить</button>
+</form>
+
+<p>
+    {% if is_edit %}
+        <a href="{% url 'album_detail' album.pk %}">
+            Отмена
+        </a>
+    {% else %}
         <a href="{% url 'album_list' %}">
             Вернуться к альбомам
         </a>
-    </p>
+    {% endif %}
+</p>
+
 {% endblock %}

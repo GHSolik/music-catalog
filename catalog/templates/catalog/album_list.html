@@ -7,6 +7,16 @@
 
 <h1>Альбомы</h1>
 
+
+{% if user.is_authenticated %}
+    <p>
+        <a href="{% url 'album_add' %}">
+            Добавить альбом
+        </a>
+    </p>
+{% endif %}
+
+
 {% if albums %}
     <ul>
         {% for album in albums %}

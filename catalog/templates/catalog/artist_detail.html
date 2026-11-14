@@ -37,4 +37,32 @@
     <p>Альбомы пока не добавлены.</p>
 {% endif %}
 
+
+{% if user.is_authenticated %}
+    <h2>Управление исполнителем</h2>
+
+    <p>
+        <a href="{% url 'album_add' %}">
+            Добавить альбом
+        </a>
+    </p>
+
+    {% if perms.catalog.change_artist %}
+        <p>
+            <a href="{% url 'artist_edit' artist.pk %}">
+                Редактировать исполнителя
+            </a>
+        </p>
+    {% endif %}
+
+    {% if perms.catalog.delete_artist %}
+        <p>
+            <a href="{% url 'artist_delete' artist.pk %}">
+                Удалить исполнителя
+            </a>
+        </p>
+    {% endif %}
+{% endif %}
+
+
 {% endblock %}

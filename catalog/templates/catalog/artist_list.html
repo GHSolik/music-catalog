@@ -7,6 +7,16 @@
 
 <h1>Исполнители</h1>
 
+
+{% if user.is_authenticated %}
+    <p>
+        <a href="{% url 'artist_add' %}">
+            Добавить исполнителя
+        </a>
+    </p>
+{% endif %}
+
+
 {% if artists %}
     <ul>
         {% for artist in artists %}
