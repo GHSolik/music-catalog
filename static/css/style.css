@@ -207,6 +207,74 @@ p {
 }
 
 /* ==========================================
+   Главная страница
+   ========================================== */
+
+.hero {
+    padding: 56px 48px;
+    margin-bottom: 56px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.hero-label {
+    margin-bottom: 12px;
+
+    color: var(--accent-hover);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    margin: 0 0 20px;
+}
+
+.hero-description {
+    max-width: 650px;
+    margin-bottom: 28px;
+
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.home-section {
+    margin-bottom: 56px;
+}
+
+.home-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.home-section-header .section-title {
+    margin-bottom: 0;
+}
+
+.section-link {
+    color: var(--accent-hover);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.section-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+/* ==========================================
    5. Карточки
    ========================================== */
 
@@ -528,6 +596,17 @@ p {
         flex-direction: column;
         text-align: center;
         align-items: center;
+    }
+
+    .hero {
+        padding: 32px 24px;
+        margin-bottom: 40px;
+    }
+
+    .home-section-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
     }
 }
 

@@ -5,7 +5,21 @@ from .models import Artist, Album
 
 
 def home(request):
-    return render(request, "catalog/home.html")
+    latest_albums = (
+        Album.objects
+        .select_related("artist")
+        .order_by("-pk")[:6]
+    )
+
+    featured_artists = (
+        Artist.objects
+        .order_by("-pk")[:6]
+    )
+
+    return render(request, "catalog/home.html", {
+        "latest_albums": latest_albums,
+        "featured_artists": featured_artists,
+    })
 
 
 def artist_list(request):
