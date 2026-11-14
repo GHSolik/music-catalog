@@ -34,6 +34,12 @@
         {% endif %}
 
     </div>
+    {% if artist.created_by %}
+        <p class="detail-meta">
+            Добавил:
+            {{ artist.created_by.username }}
+        </p>
+    {% endif %}
 
 </section>
 

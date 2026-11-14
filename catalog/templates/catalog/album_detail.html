@@ -48,6 +48,13 @@
             </p>
         {% endif %}
 
+        {% if album.created_by %}
+            <p class="detail-meta">
+                Добавил:
+                {{ album.created_by.username }}
+            </p>
+        {% endif %}
+
         {% if album.description %}
             <div class="detail-description">
                 {{ album.description|linebreaks }}
@@ -86,6 +93,17 @@
                         {% endif %}
                     </span>
 
+                    {% if track.audio_file %}
+                        <audio
+                            class="track-audio"
+                            controls
+                            preload="none"
+                            src="{{ track.audio_file.url }}"
+                        >
+                            Ваш браузер не поддерживает воспроизведение аудио.
+                        </audio>
+                    {% endif %}
+
                 </li>
 
             {% endfor %}
@@ -101,5 +119,19 @@
     {% endif %}
 
 </section>
+
+<script>
+    const audioPlayers = document.querySelectorAll(".track-audio");
+
+    audioPlayers.forEach(function (currentPlayer) {
+        currentPlayer.addEventListener("play", function () {
+            audioPlayers.forEach(function (otherPlayer) {
+                if (otherPlayer !== currentPlayer) {
+                    otherPlayer.pause();
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}
