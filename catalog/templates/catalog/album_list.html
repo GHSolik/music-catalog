@@ -5,24 +5,63 @@
 
 {% block content %}
 
-<h1>Альбомы</h1>
+<div class="page-header">
+    <h1>Альбомы</h1>
+    <p class="page-subtitle">
+        Музыкальные альбомы, представленные в нашем каталоге.
+    </p>
+</div>
 
 {% if albums %}
-    <ul>
+
+    <div class="card-grid">
+
         {% for album in albums %}
-            <li>
-                <a href="{% url 'album_detail' album.pk %}">
-                    {{ album.title }}
-                </a>
-                —
-                <a href="{% url 'artist_detail' album.artist.pk %}">
-                    {{ album.artist.name }}
-                </a>
-            </li>
+
+            <a href="{% url 'album_detail' album.pk %}"
+               class="catalog-card">
+
+                {% if album.cover %}
+                    <img
+                        src="{{ album.cover.url }}"
+                        alt="Обложка альбома {{ album.title }}"
+                        class="card-image"
+                        loading="lazy"
+                    >
+                {% else %}
+                    <div class="card-placeholder">
+                        ♫
+                    </div>
+                {% endif %}
+
+                <div class="card-content">
+
+                    <h2 class="card-title">
+                        {{ album.title }}
+                    </h2>
+
+                    <p class="card-meta">
+                        {{ album.artist.name }}
+
+                        {% if album.release_date %}
+                            · {{ album.release_date|date:"Y" }}
+                        {% endif %}
+                    </p>
+
+                </div>
+
+            </a>
+
         {% endfor %}
-    </ul>
+
+    </div>
+
 {% else %}
-    <p>Пока в каталоге нет альбомов.</p>
+
+    <div class="empty-state">
+        <p>Пока в каталоге нет альбомов.</p>
+    </div>
+
 {% endif %}
 
 {% endblock %}

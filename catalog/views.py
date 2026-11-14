@@ -5,7 +5,21 @@ from .models import Artist, Album
 
 
 def home(request):
-    return render(request, "catalog/home.html")
+    latest_albums = (
+        Album.objects
+        .select_related("artist")
+        .order_by("-pk")[:6]
+    )
+
+    featured_artists = (
+        Artist.objects
+        .order_by("-pk")[:6]
+    )
+
+    return render(request, "catalog/home.html", {
+        "latest_albums": latest_albums,
+        "featured_artists": featured_artists,
+    })
 
 
 def artist_list(request):
@@ -38,10 +52,29 @@ def album_list(request):
 
 def album_detail(request, pk):
     album = get_object_or_404(
-        Album.objects.select_related("artist"),
+        Album.objects.select_related("artist").prefetch_related("tracks"),
         pk=pk
     )
 
+    tracks = album.tracks.all()
+
+    total_seconds = 0
+
+    for track in tracks:
+        if track.duration:
+            total_seconds += int(track.duration.total_seconds())
+
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    if hours > 0:
+        total_duration = f"{hours}:{minutes:02d}:{seconds:02d}"
+    else:
+        total_duration = f"{minutes}:{seconds:02d}"
+
     return render(request, "catalog/album_detail.html", {
         "album": album,
+        "tracks": tracks,
+        "total_duration": total_duration,
+        "has_duration": any(track.duration is not None for track in tracks),
     })

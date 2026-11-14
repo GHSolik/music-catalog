@@ -5,36 +5,92 @@
 
 {% block content %}
 
-<h1>{{ artist.name }}</h1>
+<section class="artist-detail">
 
-{% if artist.image %}
-    <img src="{{ artist.image.url }}"
-         alt="{{ artist.name }}"
-         width="250">
-{% endif %}
+    {% if artist.image %}
+        <img
+            src="{{ artist.image.url }}"
+            alt="{{ artist.name }}"
+            class="artist-image"
+        >
+    {% else %}
+        <div class="card-placeholder artist-image">
+            ♪
+        </div>
+    {% endif %}
 
-{% if artist.description %}
-    <p>{{ artist.description|linebreaksbr }}</p>
-{% endif %}
+    <div class="artist-info">
 
-<h2>Дискография</h2>
+        <h1>{{ artist.name }}</h1>
 
-{% if albums %}
-    <ul>
-        {% for album in albums %}
-            <li>
-                <a href="{% url 'album_detail' album.pk %}">
-                    {{ album.title }}
+        {% if artist.description %}
+            <div class="detail-description">
+                {{ artist.description|linebreaks }}
+            </div>
+        {% else %}
+            <p class="detail-meta">
+                Описание исполнителя пока не добавлено.
+            </p>
+        {% endif %}
+
+    </div>
+
+</section>
+
+<section class="discography">
+
+    <h2 class="section-title">Дискография</h2>
+
+    {% if albums %}
+
+        <div class="card-grid">
+
+            {% for album in albums %}
+
+                <a
+                    href="{% url 'album_detail' album.pk %}"
+                    class="catalog-card"
+                >
+
+                    {% if album.cover %}
+                        <img
+                            src="{{ album.cover.url }}"
+                            alt="Обложка альбома {{ album.title }}"
+                            class="card-image"
+                            loading="lazy"
+                        >
+                    {% else %}
+                        <div class="card-placeholder">
+                            ♫
+                        </div>
+                    {% endif %}
+
+                    <div class="card-content">
+                        <h3 class="card-title">
+                            {{ album.title }}
+                        </h3>
+
+                        {% if album.release_date %}
+                            <p class="card-meta">
+                                {{ album.release_date|date:"Y" }}
+                            </p>
+                        {% endif %}
+                    </div>
+
                 </a>
 
-                {% if album.release_date %}
-                    ({{ album.release_date|date:"Y" }})
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Альбомы пока не добавлены.</p>
-{% endif %}
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+            <p>Альбомы этого исполнителя пока не добавлены.</p>
+        </div>
+
+    {% endif %}
+
+</section>
 
 {% endblock %}
