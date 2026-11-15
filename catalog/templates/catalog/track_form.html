@@ -4,25 +4,38 @@
 {% block title %}Добавление трека{% endblock %}
 
 {% block content %}
+
+<div class="content-form-container">
+
     <h1>Добавление трека</h1>
 
-    <p>
+    <p class="page-subtitle">
         Альбом: <strong>{{ album.title }}</strong>
     </p>
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post"
+          enctype="multipart/form-data"
+          class="content-form">
+
         {% csrf_token %}
 
         {{ form.as_p }}
 
-        <button type="submit">
-            Сохранить трек
-        </button>
+        <div class="form-actions">
+
+            <button type="submit" class="button">
+                Сохранить трек
+            </button>
+
+            <a href="{% url 'album_detail' album.pk %}"
+               class="button button-secondary">
+                Отмена
+            </a>
+
+        </div>
+
     </form>
 
-    <p>
-        <a href="{% url 'album_detail' album.pk %}">
-            Вернуться к альбому
-        </a>
-    </p>
+</div>
+
 {% endblock %}
