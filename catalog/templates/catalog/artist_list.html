@@ -13,13 +13,15 @@
 </div>
 
 
+
 {% if user.is_authenticated %}
-    <p>
-        <a href="{% url 'artist_add' %}">
-            Добавить исполнителя
+    <div class="page-actions">
+        <a href="{% url 'artist_add' %}" class="button">
+            + Добавить исполнителя
         </a>
-    </p>
+    </div>
 {% endif %}
+
 
 
 {% if artists %}

@@ -5,31 +5,53 @@
 
 {% block content %}
 
-<h1>Подтверждение удаления</h1>
+<div class="content-form-container">
 
-<p>
-    Вы действительно хотите удалить
-    {{ object_type }} <strong>{{ object }}</strong>?
-</p>
+    <h1>Подтверждение удаления</h1>
 
-<p>
-    <strong>Внимание!</strong>
-    Это действие нельзя отменить.
-    Связанные записи также могут быть удалены.
-</p>
+    <div class="content-form">
 
-<form method="post">
-    {% csrf_token %}
+        <p>
+            Вы действительно хотите удалить
+            {{ object_type }}
+            <strong>{{ object }}</strong>?
+        </p>
 
-    <button type="submit">
-        Да, удалить
-    </button>
-</form>
+        <p>
+            <strong>Внимание!</strong>
+            Это действие нельзя отменить.
+            Связанные записи также могут быть удалены.
+        </p>
 
-<p>
-    <a href="{% url cancel_url object.pk %}">
-        Отмена
-    </a>
-</p>
+        <form method="post">
+
+            {% csrf_token %}
+
+            <div class="form-actions">
+
+                <button type="submit"
+                        class="button button-danger">
+                    Да, удалить
+                </button>
+
+                {% if cancel_pk %}
+                    <a href="{% url cancel_url cancel_pk %}"
+                       class="button button-secondary">
+                        Отмена
+                    </a>
+                {% else %}
+                    <a href="{% url cancel_url object.pk %}"
+                       class="button button-secondary">
+                        Отмена
+                    </a>
+                {% endif %}
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 {% endblock %}

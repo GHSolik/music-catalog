@@ -7,32 +7,46 @@
 
 {% block content %}
 
-<h1>
-    {% if is_edit %}
-        Редактирование альбома
-    {% else %}
-        Добавление альбома
-    {% endif %}
-</h1>
+<div class="content-form-container">
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+    <h1>
+        {% if is_edit %}
+            Редактирование альбома
+        {% else %}
+            Добавление альбома
+        {% endif %}
+    </h1>
 
-    {{ form.as_p }}
+    <form method="post"
+          enctype="multipart/form-data"
+          class="content-form">
 
-    <button type="submit">Сохранить</button>
-</form>
+        {% csrf_token %}
 
-<p>
-    {% if is_edit %}
-        <a href="{% url 'album_detail' album.pk %}">
-            Отмена
-        </a>
-    {% else %}
-        <a href="{% url 'album_list' %}">
-            Вернуться к альбомам
-        </a>
-    {% endif %}
-</p>
+        {{ form.as_p }}
+
+        <div class="form-actions">
+
+            <button type="submit" class="button">
+                Сохранить
+            </button>
+
+            {% if is_edit %}
+                <a href="{% url 'album_detail' album.pk %}"
+                   class="button button-secondary">
+                    Отмена
+                </a>
+            {% else %}
+                <a href="{% url 'album_list' %}"
+                   class="button button-secondary">
+                    Отмена
+                </a>
+            {% endif %}
+
+        </div>
+
+    </form>
+
+</div>
 
 {% endblock %}

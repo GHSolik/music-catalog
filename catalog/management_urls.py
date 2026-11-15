@@ -41,5 +41,16 @@ urlpatterns = [
         management_views.album_delete,
         name="album_delete"
     ),
+    
+    path(
+        "tracks/<int:pk>/edit/",
+        management_views.track_edit,
+        name="track_edit"
+    ),
+    path(
+        "tracks/<int:pk>/delete/",
+        management_views.track_delete,
+        name="track_delete"
+    ),
 
 ]

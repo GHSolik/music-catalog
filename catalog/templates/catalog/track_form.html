@@ -1,28 +1,127 @@
 
 {% extends "base.html" %}
 
-{% block title %}Добавление трека{% endblock %}
+
+{% block title %}
+    {% if is_edit %}
+        Редактирование трека
+    {% else %}
+        Добавление трека
+    {% endif %}
+{% endblock %}
+
 
 {% block content %}
-    <h1>Добавление трека</h1>
 
-    <p>
+<div class="content-form-container">
+
+    
+    <h1>
+        {% if is_edit %}
+            Редактировать трек
+        {% else %}
+            Добавить трек
+        {% endif %}
+    </h1>
+
+
+    <p class="page-subtitle">
         Альбом: <strong>{{ album.title }}</strong>
     </p>
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post"
+          enctype="multipart/form-data"
+          class="content-form">
+
         {% csrf_token %}
 
-        {{ form.as_p }}
+        
+        
+        {% for field in form %}
+            {% if field.name == "audio_file" and temp_filename and not is_edit %}
+                <div class="form-field">
+                    <label>Аудиофайл</label>
+                    <p class="form-help">
+                        ✓ {{ temp_filename }} — файл загружен
+                    </p>
+                </div>
+            {% else %}
 
-        <button type="submit">
-            Сохранить трек
-        </button>
+                {% if is_edit and field.name == "audio_file" and track.audio_file %}
+                    <div class="current-audio">
+                        <p class="form-help">
+                            Текущий аудиофайл:
+                        </p>
+
+                        <a href="{{ track.audio_file.url }}" target="_blank">
+                            {{ track.audio_file.name|cut:"tracks/" }}
+                        </a>
+                    </div>
+                {% endif %}
+
+                <p>
+                    {{ field.label_tag }}
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <span class="helptext">
+                            {{ field.help_text }}
+                        </span>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                        <span class="errorlist">
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+                </p>
+
+            {% endif %}
+        {% endfor %}
+
+
+
+
+        {% if not is_edit %}
+            <input
+                type="hidden"
+                name="temp_token"
+                value="{{ temp_token|default:'' }}"
+            >
+
+            {% if metadata_message %}
+                <p class="form-help">
+                    {{ metadata_message }}
+                </p>
+            {% endif %}
+
+            <button
+                type="submit"
+                name="action"
+                value="read_metadata"
+                class="button button-secondary"
+                formnovalidate
+            >
+                Прочитать метаданные
+            </button>
+        {% endif %}
+
+
+        <div class="form-actions">
+
+            <button type="submit" name="action" value="save" class="button">
+                Сохранить трек
+            </button>
+
+            <a href="{% url 'album_detail' album.pk %}"
+               class="button button-secondary">
+                Отмена
+            </a>
+
+        </div>
+
     </form>
 
-    <p>
-        <a href="{% url 'album_detail' album.pk %}">
-            Вернуться к альбому
-        </a>
-    </p>
+</div>
+
 {% endblock %}

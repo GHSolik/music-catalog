@@ -13,13 +13,15 @@
 </div>
 
 
+
 {% if user.is_authenticated %}
-    <p>
-        <a href="{% url 'album_add' %}">
-            Добавить альбом
+    <div class="page-actions">
+        <a href="{% url 'album_add' %}" class="button">
+            + Добавить альбом
         </a>
-    </p>
+    </div>
 {% endif %}
+
 
 
 {% if albums %}

@@ -212,6 +212,14 @@ p {
     margin: 0 0 10px;
 }
 
+.page-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+    margin-bottom: 28px;
+}
+
 .page-subtitle {
     color: var(--text-muted);
     max-width: 700px;
@@ -618,6 +626,154 @@ p {
     font-variant-numeric: tabular-nums;
 }
 
+/* Кнопки управления композициями */
+
+.track-management {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.track-management .button {
+    padding: 7px 12px;
+    font-size: 0.85rem;
+}
+
+
+/* ==========================================
+   Формы добавления и редактирования
+   ========================================== */
+
+.content-form-container {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.content-form-container h1 {
+    margin: 0 0 24px;
+}
+
+.content-form {
+    padding: 32px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.content-form p {
+    margin: 0 0 24px;
+}
+
+.content-form label {
+    display: block;
+    margin-bottom: 8px;
+
+    color: var(--text);
+    font-weight: 600;
+}
+
+.content-form input:not([type="checkbox"]),
+.content-form select,
+.content-form textarea {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+
+    padding: 12px 14px;
+
+    background: var(--bg);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    font: inherit;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.content-form textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.content-form input:focus,
+.content-form select:focus,
+.content-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(185, 45, 58, 0.18);
+}
+
+.content-form input::placeholder,
+.content-form textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.content-form input[type="file"] {
+    cursor: pointer;
+}
+
+.content-form input[type="file"]::file-selector-button {
+    margin-right: 14px;
+    padding: 8px 12px;
+
+    background: var(--surface-hover);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    font: inherit;
+    cursor: pointer;
+}
+
+.content-form .helptext {
+    display: block;
+    margin-top: 6px;
+
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.content-form .errorlist {
+    margin: 6px 0 12px;
+    padding-left: 20px;
+
+    color: #FF7B86;
+    font-size: 0.9rem;
+}
+
+.content-form .errorlist li {
+    margin-bottom: 4px;
+}
+
+.content-form .form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin-top: 32px;
+}
+
+@media (max-width: 600px) {
+    .content-form {
+        padding: 20px;
+    }
+
+    .content-form .form-actions {
+        flex-direction: column;
+    }
+
+    .content-form .form-actions .button {
+        width: 100%;
+    }
+}
+
 /* ==========================================
    8. Кнопки
    ========================================== */
@@ -656,6 +812,17 @@ p {
 
 .button-secondary:hover {
     background: var(--surface-hover);
+}
+
+.button-danger {
+    background: transparent;
+    color: #FF7B86;
+    border-color: #B92D3A;
+}
+
+.button-danger:hover {
+    background: #B92D3A;
+    color: #FFFFFF;
 }
 
 /* ==========================================
