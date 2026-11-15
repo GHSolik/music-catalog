@@ -23,7 +23,44 @@
 
         {% csrf_token %}
 
-        {{ form.as_p }}
+        
+        {% for field in form %}
+
+            {% if is_edit and field.name == "cover" and album.cover %}
+                <div class="current-cover">
+                    <p class="form-help">
+                        Текущая обложка:
+                    </p>
+
+                    <a href="{{ album.cover.url }}" target="_blank">
+                        <img
+                            src="{{ album.cover.url }}"
+                            alt="Обложка альбома"
+                            style="max-width: 160px; border-radius: 8px;"
+                        >
+                    </a>
+                </div>
+            {% endif %}
+
+            <p>
+                {{ field.label_tag }}
+                {{ field }}
+
+                {% if field.help_text %}
+                    <span class="helptext">
+                        {{ field.help_text }}
+                    </span>
+                {% endif %}
+
+                {% for error in field.errors %}
+                    <span class="errorlist">
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </p>
+
+        {% endfor %}
+
 
         <div class="form-actions">
 

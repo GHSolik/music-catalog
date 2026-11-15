@@ -22,6 +22,9 @@ class ArtistForm(forms.ModelForm):
             "description": forms.Textarea(
                 attrs={"placeholder": "Введите описание исполнителя"}
             ),
+            "image": forms.FileInput(
+                attrs={"accept": "image/*"}
+            ),
         }
 
 
@@ -56,6 +59,9 @@ class AlbumForm(forms.ModelForm):
             ),
             "description": forms.Textarea(
                 attrs={"placeholder": "Введите описание альбома"}
+            ),
+            "cover": forms.FileInput(
+                attrs={"accept": "image/*"}
             ),
         }
 
