@@ -69,6 +69,83 @@
 
 </section>
 
+<section class="album-rating">
+
+    <div class="rating-content">
+
+        <div class="rating-info">
+            <h2 class="section-title">Оценка альбома</h2>
+
+            {% if average_rating is not None %}
+                <div class="rating-summary">
+                    <span class="rating-average">
+                        {{ average_rating|floatformat:1 }}
+                    </span>
+                    <span class="rating-count">
+                        / 5 · {{ rating_count }} оценок
+                    </span>
+                </div>
+            {% else %}
+                <p class="rating-empty">
+                    Этот альбом пока никто не оценил.
+                </p>
+            {% endif %}
+        </div>
+
+        {% if user.is_authenticated %}
+
+            <form
+                method="post"
+                action="{% url 'rate_album' album.pk %}"
+                class="rating-form"
+            >
+                {% csrf_token %}
+
+                <div class="rating-options">
+                    {% for score in "54321" %}
+                        <label class="rating-option">
+                            <input
+                                type="radio"
+                                name="score"
+                                value="{{ score }}"
+                                {% if user_rating and user_rating.score|stringformat:"s" == score %}
+                                    checked
+                                {% endif %}
+                                required
+                            >
+                            <span class="rating-star">★</span>
+                        </label>
+                    {% endfor %}
+                </div>
+
+                <div class="rating-actions">
+                    <span class="rating-label">
+                        {% if user_rating %}
+                            Ваша оценка: {{ user_rating.score }}/5
+                        {% else %}
+                            Выберите оценку
+                        {% endif %}
+                    </span>
+
+                    <button type="submit" class="button">
+                        Сохранить
+                    </button>
+                </div>
+
+            </form>
+
+        {% else %}
+
+            <p class="rating-login">
+                Чтобы оценить альбом, необходимо войти в аккаунт.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
 <section class="tracklist">
 
     <h2 class="section-title">Список композиций</h2>
