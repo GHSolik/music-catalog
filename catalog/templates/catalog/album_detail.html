@@ -59,14 +59,23 @@
             </p>
         {% endif %}
 
-        {% if album.description %}
-            <div class="detail-description">
-                {{ album.description|linebreaks }}
-            </div>
-        {% endif %}
-
+        
     </div>
 
+</section>
+
+<section class="album-description">
+    <h2 class="section-title">Об альбоме</h2>
+
+    {% if album.description %}
+        <div class="detail-description">
+            {{ album.description|linebreaks }}
+        </div>
+    {% else %}
+        <p class="detail-meta">
+            Описание альбома пока не добавлено.
+        </p>
+    {% endif %}
 </section>
 
 <section class="album-rating">

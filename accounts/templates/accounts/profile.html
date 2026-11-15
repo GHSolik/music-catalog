@@ -1,48 +1,26 @@
+
 {% extends 'base.html' %}
 
 {% block title %}Личный кабинет — Музыкальная энциклопедия{% endblock %}
 
 {% block content %}
-<style>
-    .profile-card {
-        max-width: 600px;
-        margin: 40px auto;
-        padding: 32px;
-        background: #a13a2d;
-        border-radius: 24px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        border: 1px solid #242428;
-    }
-    .profile-card h1 {
-        margin-top: 0;
-        color: #ffe8e8;
-    }
-    .items-list {
-        list-style: none;
-        padding: 0;
-        margin-top: 20px;
-    }
-    .items-list li {
-        padding: 10px 14px;
-        background: #242428;
-        border-radius: 12px;
-        margin-bottom: 8px;
-        border: 1px solid #242428;
-    }
-</style>
-
 <div class="profile-card">
     <h1>Привет, {{ user.username }}!</h1>
-    <p><strong>Электронная почта:</strong> {{ user.email|default:"не указана" }}</p>
 
-    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+    <p>
+        <strong>Электронная почта:</strong>
+        {{ user.email|default:"не указана" }}
+    </p>
+
+    <hr class="profile-divider">
 
     <h3>Материалы, добавленные вами:</h3>
+
     <ul class="items-list">
         {% for item in user_items %}
             <li>{{ item.title }}</li>
         {% empty %}
-            <li>Вы еще ничего не добавили в каталог.</li>
+            <li>Вы ещё ничего не добавили в каталог.</li>
         {% endfor %}
     </ul>
 </div>
