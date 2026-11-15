@@ -34,23 +34,21 @@
             </p>
         {% endif %}
 
-        {% if artist.description %}
-            <div class="detail-description">
-                {{ artist.description|linebreaks }}
-            </div>
-        {% else %}
-            <p class="detail-meta">
-                Описание исполнителя пока не добавлено.
-            </p>
-        {% endif %}
+        <div class="artist-description">
+            <h2 class="section-title">Об исполнителе</h2>
+
+            {% if artist.description %}
+                <div class="detail-description">
+                    {{ artist.description|linebreaks }}
+                </div>
+            {% else %}
+                <p class="detail-meta">
+                    Описание исполнителя пока не добавлено.
+                </p>
+            {% endif %}
+        </div>
 
     </div>
-    {% if artist.created_by %}
-        <p class="detail-meta">
-            Добавил:
-            {{ artist.created_by.username }}
-        </p>
-    {% endif %}
 
 </section>
 

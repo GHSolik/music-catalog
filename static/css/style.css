@@ -114,7 +114,6 @@ p {
 
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 24px;
 }
 
@@ -160,6 +159,7 @@ p {
     display: flex;
     align-items: center;
     gap: 28px;
+    margin-left: 32px;
 }
 
 .main-nav a {
@@ -176,6 +176,23 @@ p {
     display: flex;
     align-items: center;
     gap: 12px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.header-actions form {
+    margin: 0;
+}
+
+.profile-link {
+    color: var(--text-muted);
+    font-weight: 500;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.profile-link:hover {
+    color: var(--accent-hover);
 }
 
 /* ==========================================
@@ -507,6 +524,29 @@ p {
     line-height: 1.8;
 }
 
+.album-description {
+    margin-bottom: 32px;
+}
+
+.artist-description {
+    margin-top: 24px;
+}
+
+.album-description .section-title,
+.artist-description .section-title {
+    margin-bottom: 16px;
+}
+
+.album-description .detail-description,
+.artist-description .detail-description {
+    margin-top: 0;
+    color: var(--text-muted);
+}
+
+.album-detail:has(+ .album-description) {
+    margin-bottom: 32px;
+}
+
 /* ==========================================
    7. Треклист
    ========================================== */
@@ -831,18 +871,6 @@ p {
    ========================================== */
 
 @media (max-width: 800px) {
-    .header-content {
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 16px 0;
-    }
-
-    .main-nav {
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 12px 20px;
-    }
-
     .artist-detail,
     .album-detail {
         grid-template-columns: 1fr;
@@ -937,5 +965,267 @@ p {
     .button,
     .main-nav a {
         transition: none;
+    }
+}
+
+/* ==========================================
+   Страницы авторизации и регистрации
+   ========================================== */
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    margin: 24px auto;
+    padding: 32px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.auth-card h1 {
+    margin: 0 0 28px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.auth-card .form-group {
+    margin-bottom: 20px;
+}
+
+.auth-card .form-group label {
+    display: block;
+    margin-bottom: 8px;
+
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.auth-card .form-group input {
+    display: block;
+    width: 100%;
+    padding: 12px 14px;
+
+    background: var(--bg);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    font: inherit;
+    transition: border-color 0.2s ease;
+}
+
+.auth-card .form-group input:focus {
+    outline: none;
+    border-color: var(--accent-hover);
+    box-shadow: 0 0 0 3px rgba(185, 45, 58, 0.15);
+}
+
+.auth-card .errorlist,
+.auth-card .error-list {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+
+    color: #FF858E;
+    font-size: 0.85rem;
+}
+
+.auth-card .non-field-errors {
+    margin-bottom: 20px;
+    padding: 12px 14px;
+
+    background: rgba(185, 45, 58, 0.12);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+
+    color: #FFB0B6;
+    font-size: 0.9rem;
+}
+
+.auth-card .auth-submit {
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px 18px;
+}
+
+.auth-card .auth-footer {
+    margin-top: 24px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.auth-card .auth-footer a {
+    color: var(--accent-hover);
+    font-weight: 600;
+}
+
+.auth-card .help-text {
+    display: block;
+    margin-top: 6px;
+
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.auth-card .help-text ul {
+    margin: 6px 0 0;
+    padding-left: 20px;
+}
+
+@media (max-width: 480px) {
+    .auth-card {
+        margin: 12px auto;
+        padding: 24px 20px;
+    }
+}
+
+/* ==========================================
+   Личный кабинет
+   ========================================== */
+
+.profile-card {
+    width: 100%;
+    max-width: 700px;
+    margin: 24px auto;
+    padding: 32px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    border-top: 4px solid var(--accent);
+}
+
+.profile-card h1 {
+    margin: 0 0 24px;
+    font-size: 1.8rem;
+    color: var(--text);
+    letter-spacing: -0.5px;
+}
+
+.profile-card p {
+    color: var(--text-muted);
+}
+
+.profile-card p strong {
+    color: var(--text);
+}
+
+.profile-divider {
+    margin: 24px 0;
+    border: 0;
+    border-top: 1px solid var(--border);
+}
+
+.profile-card h3 {
+    margin: 0 0 16px;
+    font-size: 1.2rem;
+}
+
+.profile-card .items-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-card .items-list li {
+    margin-bottom: 8px;
+    padding: 12px 16px;
+
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.profile-card .items-list li:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+    .profile-card {
+        margin: 12px auto;
+        padding: 24px 20px;
+    }
+}
+
+/* ==========================================
+   Кнопка выхода из аккаунта
+   ========================================== */
+
+.btn-logout {
+    padding: 8px 16px;
+
+    background: transparent;
+    color: var(--accent-hover);
+
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.btn-logout:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+.btn-logout:active {
+    background: var(--accent-hover);
+}
+
+/* ==========================================
+   Адаптивность шапки
+   ========================================== */
+
+/* Средние экраны: разрешаем перенос блоков */
+@media (max-width: 1250px) {
+    .header-content {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 16px 0;
+        gap: 16px 24px;
+    }
+
+    .main-nav {
+        margin-left: 0;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px 24px;
+    }
+
+    .header-actions {
+        margin-left: auto;
+    }
+}
+
+/* Узкие экраны: отдельные строки */
+@media (max-width: 850px) {
+    .site-logo {
+        justify-content: center;
+    }
+
+    .main-nav {
+        width: 100%;
+    }
+
+    .header-actions {
+        width: 100%;
+        margin-left: 0;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 }
