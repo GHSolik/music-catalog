@@ -12,6 +12,7 @@ urlpatterns = [
 
     path("albums/", views.album_list, name="album_list"),
     path("albums/<int:pk>/", views.album_detail, name="album_detail"),
+    path("albums/<int:pk>/rate/", views.rate_album, name="rate_album"),
 
     path("search/", views.search, name="search"),
     path("", include("catalog.management_urls")),

@@ -2,9 +2,11 @@ import hashlib
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from django.db.models import Q
+from django.db.models import Q, Avg, Count
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
-from .models import Artist, Album
+from .models import Artist, Album, AlbumRating
 
 
 def home(request):
@@ -84,6 +86,7 @@ def album_detail(request, pk):
 
     tracks = album.tracks.all()
 
+    # Вычисляем общую длительность альбома
     total_seconds = 0
 
     for track in tracks:
@@ -98,11 +101,33 @@ def album_detail(request, pk):
     else:
         total_duration = f"{minutes}:{seconds:02d}"
 
+    # Вычисляем среднюю оценку и количество голосов
+    rating_stats = album.ratings.aggregate(
+        average=Avg("score"),
+        count=Count("id")
+    )
+
+    average_rating = rating_stats["average"]
+    rating_count = rating_stats["count"]
+
+    # Получаем оценку текущего пользователя
+    user_rating = None
+
+    if request.user.is_authenticated:
+        user_rating = album.ratings.filter(
+            user=request.user
+        ).first()
+
     return render(request, "catalog/album_detail.html", {
         "album": album,
         "tracks": tracks,
         "total_duration": total_duration,
-        "has_duration": any(track.duration is not None for track in tracks),
+        "has_duration": any(
+            track.duration is not None for track in tracks
+        ),
+        "average_rating": average_rating,
+        "rating_count": rating_count,
+        "user_rating": user_rating,
     })
 
 def search(request):
@@ -132,5 +157,26 @@ def random_album(request):
 
     if album is None:
         return redirect("album_list")
+
+    return redirect("album_detail", pk=album.pk)
+
+@login_required
+@require_POST
+def rate_album(request, pk):
+    album = get_object_or_404(Album, pk=pk)
+
+    try:
+        score = int(request.POST.get("score", ""))
+    except (ValueError, TypeError):
+        return redirect("album_detail", pk=album.pk)
+
+    if not 1 <= score <= 5:
+        return redirect("album_detail", pk=album.pk)
+
+    AlbumRating.objects.update_or_create(
+        album=album,
+        user=request.user,
+        defaults={"score": score}
+    )
 
     return redirect("album_detail", pk=album.pk)

@@ -74,3 +74,34 @@ class Track(models.Model):
 
     def __str__(self):
         return f"{self.track_number}. {self.title}"
+
+
+class AlbumRating(models.Model):
+    album = models.ForeignKey(
+        Album,
+        on_delete=models.CASCADE,
+        related_name="ratings"
+    )
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="album_ratings"
+    )
+
+    score = models.PositiveSmallIntegerField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["album", "user"],
+                name="unique_album_user_rating"
+            ),
+            models.CheckConstraint(
+                condition=models.Q(score__gte=1, score__lte=5),
+                name="album_rating_score_between_1_and_5"
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.user} — {self.album}: {self.score}/5"
