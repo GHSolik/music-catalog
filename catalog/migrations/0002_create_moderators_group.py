@@ -4,35 +4,34 @@ from django.db import migrations
 
 
 def create_moderators_group(apps, schema_editor):
-    Group = apps.get_model("auth", "Group")
-    Permission = apps.get_model("auth", "Permission")
-    ContentType = apps.get_model("contenttypes", "ContentType")
+     Group = apps.get_model("auth", "Group")
+     Permission = apps.get_model("auth", "Permission")
+     ContentType = apps.get_model("contenttypes", "ContentType")
 
-    group, created = Group.objects.using(
-        schema_editor.connection.alias
-    ).get_or_create(name="Moderators")
+     group, created = Group.objects.using(
+         schema_editor.connection.alias
+     ).get_or_create(name="Moderators")
 
-    permissions = []
+     permissions = []
 
-    for model_name in ["artist", "album"]:
-        content_type = ContentType.objects.using(
-            schema_editor.connection.alias
-        ).get(
-            app_label="catalog",
-            model=model_name
-        )
+     for model_name in ["artist", "album"]:
+         content_type = ContentType.objects.using(
+             schema_editor.connection.alias
+         ).get(
+             app_label="catalog",
+             model=model_name
+         )
 
-        for action in ["change", "delete"]:
-            permission = Permission.objects.using(
-                schema_editor.connection.alias
-            ).get(
-                content_type=content_type,
-                codename=f"{action}_{model_name}"
-            )
-            permissions.append(permission)
+         for action in ["change", "delete"]:
+             permission = Permission.objects.using(
+                 schema_editor.connection.alias
+             ).get(
+                 content_type=content_type,
+                 codename=f"{action}_{model_name}"
+             )
+             permissions.append(permission)
 
-    group.permissions.add(*permissions)
-
+     group.permissions.add(*permissions)
 
 class Migration(migrations.Migration):
 

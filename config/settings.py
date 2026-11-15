@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -135,3 +136,6 @@ MAILERS = {
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+LOGIN_REDIRECT_URL = '/'  # Главная страница музыкальной энциклопедии после входа
+LOGOUT_REDIRECT_URL = '/'
