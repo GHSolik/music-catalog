@@ -200,11 +200,11 @@
     {% endif %}
 
     {% if user.is_authenticated %}
-        <p>
-            <a href="{% url 'track_add' album.pk %}">
-                Добавить трек
+        <div class="page-actions">
+            <a href="{% url 'track_add' album.pk %}" class="button">
+                + Добавить трек
             </a>
-        </p>
+        </div>
     {% endif %}
 
 </section>
@@ -212,23 +212,29 @@
 {% if user.is_authenticated %}
     {% if perms.catalog.change_album or perms.catalog.delete_album %}
         <section class="content-management">
-            <h2 class="section-title">Управление альбомом</h2>
 
-            {% if perms.catalog.change_album %}
-                <p>
-                    <a href="{% url 'album_edit' album.pk %}">
+            <h2 class="section-title">
+                Управление альбомом
+            </h2>
+
+            <div class="page-actions">
+
+                {% if perms.catalog.change_album %}
+                    <a href="{% url 'album_edit' album.pk %}"
+                       class="button button-secondary">
                         Редактировать альбом
                     </a>
-                </p>
-            {% endif %}
+                {% endif %}
 
-            {% if perms.catalog.delete_album %}
-                <p>
-                    <a href="{% url 'album_delete' album.pk %}">
+                {% if perms.catalog.delete_album %}
+                    <a href="{% url 'album_delete' album.pk %}"
+                       class="button button-danger">
                         Удалить альбом
                     </a>
-                </p>
-            {% endif %}
+                {% endif %}
+
+            </div>
+
         </section>
     {% endif %}
 {% endif %}

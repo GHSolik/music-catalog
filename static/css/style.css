@@ -195,6 +195,14 @@ p {
     margin: 0 0 10px;
 }
 
+.page-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+    margin-bottom: 28px;
+}
+
 .page-subtitle {
     color: var(--text-muted);
     max-width: 700px;
@@ -750,6 +758,17 @@ p {
 
 .button-secondary:hover {
     background: var(--surface-hover);
+}
+
+.button-danger {
+    background: transparent;
+    color: #FF7B86;
+    border-color: #B92D3A;
+}
+
+.button-danger:hover {
+    background: #B92D3A;
+    color: #FFFFFF;
 }
 
 /* ==========================================

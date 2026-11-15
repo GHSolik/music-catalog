@@ -45,12 +45,6 @@
         {% endif %}
 
     </div>
-    {% if artist.created_by %}
-        <p class="detail-meta">
-            Добавил:
-            {{ artist.created_by.username }}
-        </p>
-    {% endif %}
 
 </section>
 
@@ -109,11 +103,11 @@
     {% endif %}
 
     {% if user.is_authenticated %}
-        <p>
-            <a href="{% url 'album_add' %}">
-                Добавить альбом
+        <div class="page-actions">
+            <a href="{% url 'album_add' %}" class="button">
+                + Добавить альбом
             </a>
-        </p>
+        </div>
     {% endif %}
 
 </section>
@@ -126,21 +120,23 @@
                 Управление исполнителем
             </h2>
 
-            {% if perms.catalog.change_artist %}
-                <p>
-                    <a href="{% url 'artist_edit' artist.pk %}">
+            <div class="page-actions">
+
+                {% if perms.catalog.change_artist %}
+                    <a href="{% url 'artist_edit' artist.pk %}"
+                       class="button button-secondary">
                         Редактировать исполнителя
                     </a>
-                </p>
-            {% endif %}
+                {% endif %}
 
-            {% if perms.catalog.delete_artist %}
-                <p>
-                    <a href="{% url 'artist_delete' artist.pk %}">
+                {% if perms.catalog.delete_artist %}
+                    <a href="{% url 'artist_delete' artist.pk %}"
+                       class="button button-danger">
                         Удалить исполнителя
                     </a>
-                </p>
-            {% endif %}
+                {% endif %}
+
+            </div>
 
         </section>
     {% endif %}
