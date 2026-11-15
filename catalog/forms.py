@@ -81,14 +81,21 @@ class TrackForm(forms.ModelForm):
             "audio_file": "Аудиофайл",
         }
 
+        
         widgets = {
             "title": forms.TextInput(
-                attrs={"placeholder": "Введите название композиции"}
+                attrs={
+                    "placeholder": "Введите название композиции"
+                }
             ),
             "track_number": forms.NumberInput(
                 attrs={"min": 1}
             ),
+            "audio_file": forms.FileInput(
+                attrs={"accept": ".mp3,audio/mpeg"}
+            ),
         }
+
 
         help_texts = {
             "duration": "Укажите длительность в формате ЧЧ:ММ:СС.",

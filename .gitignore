@@ -13,6 +13,7 @@ db.sqlite3
 db.sqlite3-journal
 media/
 staticfiles/
+/temp_audio_uploads/
 
 # Environment variables
 .env
