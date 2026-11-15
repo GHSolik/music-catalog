@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import (
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ArtistForm, AlbumForm, TrackForm
-from .models import Artist, Album
+from .models import Artist, Album, Track
 
 
 @login_required
@@ -174,5 +174,58 @@ def album_delete(request, pk):
             "object": album,
             "object_type": "альбом",
             "cancel_url": "album_detail",
+        }
+    )
+
+@login_required
+@permission_required("catalog.change_track", raise_exception=True)
+def track_edit(request, pk):
+    track = get_object_or_404(Track, pk=pk)
+    album = track.album
+
+    if request.method == "POST":
+        form = TrackForm(
+            request.POST,
+            request.FILES,
+            instance=track,
+            album=album
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect("album_detail", pk=album.pk)
+    else:
+        form = TrackForm(instance=track, album=album)
+
+    return render(
+        request,
+        "catalog/track_form.html",
+        {
+            "form": form,
+            "album": album,
+            "track": track,
+            "is_edit": True,
+        }
+    )
+
+
+@login_required
+@permission_required("catalog.delete_track", raise_exception=True)
+def track_delete(request, pk):
+    track = get_object_or_404(Track, pk=pk)
+    album = track.album
+
+    if request.method == "POST":
+        track.delete()
+        return redirect("album_detail", pk=album.pk)
+
+    return render(
+        request,
+        "catalog/confirm_delete.html",
+        {
+            "object": track,
+            "object_type": "трек",
+            "cancel_url": "album_detail",
+            "cancel_pk": album.pk,
         }
     )

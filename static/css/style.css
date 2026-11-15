@@ -586,6 +586,20 @@ p {
     font-variant-numeric: tabular-nums;
 }
 
+/* Кнопки управления композициями */
+
+.track-management {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.track-management .button {
+    padding: 7px 12px;
+    font-size: 0.85rem;
+}
+
 
 /* ==========================================
    Формы добавления и редактирования

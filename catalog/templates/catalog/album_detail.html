@@ -185,6 +185,32 @@
                         </audio>
                     {% endif %}
 
+
+                    {% if user.is_authenticated %}
+                        {% if perms.catalog.change_track or perms.catalog.delete_track %}
+
+                            <div class="track-management">
+
+                                {% if perms.catalog.change_track %}
+                                    <a href="{% url 'track_edit' track.pk %}"
+                                    class="button button-secondary">
+                                        Редактировать
+                                    </a>
+                                {% endif %}
+
+                                {% if perms.catalog.delete_track %}
+                                    <a href="{% url 'track_delete' track.pk %}"
+                                    class="button button-danger">
+                                        Удалить
+                                    </a>
+                                {% endif %}
+
+                            </div>
+
+                        {% endif %}
+                    {% endif %}
+
+
                 </li>
 
             {% endfor %}
