@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+    {% if is_edit %}Редактирование исполнителя{% else %}Добавление исполнителя{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<h1>
+    {% if is_edit %}
+        Редактирование исполнителя
+    {% else %}
+        Добавление исполнителя
+    {% endif %}
+</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Сохранить</button>
+</form>
+
+<p>
+    {% if is_edit %}
+        <a href="{% url 'artist_detail' artist.pk %}">
+            Отмена
+        </a>
+    {% else %}
+        <a href="{% url 'artist_list' %}">
+            Вернуться к исполнителям
+        </a>
+    {% endif %}
+</p>
+
+{% endblock %}

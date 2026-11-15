@@ -1,0 +1,212 @@
+
+{% extends "base.html" %}
+
+{% block title %}Главная — Music Catalog{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <p class="hero-label">Музыкальная энциклопедия</p>
+
+    <h1>Открой мир музыки</h1>
+
+    <p class="hero-description">
+        Исследуй исполнителей, знакомься с альбомами
+        и открывай для себя новые композиции.
+    </p>
+
+    <div class="hero-actions">
+        <a href="{% url 'artist_list' %}" class="button">
+            Исполнители
+        </a>
+
+        <a href="{% url 'album_list' %}" class="button button-secondary">
+            Альбомы
+        </a>
+    </div>
+
+</section>
+
+
+<section class="album-of-day">
+
+    <div class="album-of-day-header">
+        <h2 class="section-title">Альбом дня</h2>
+        <span class="daily-label">Музыкальная рекомендация</span>
+    </div>
+
+    {% if album_of_the_day %}
+
+        <div class="daily-album-content">
+
+            <a href="{% url 'album_detail' album_of_the_day.pk %}"
+               class="daily-album-cover">
+
+                {% if album_of_the_day.cover %}
+                    <img
+                        src="{{ album_of_the_day.cover.url }}"
+                        alt="Обложка альбома {{ album_of_the_day.title }}"
+                        loading="lazy"
+                    >
+                {% else %}
+                    <div class="card-placeholder">♫</div>
+                {% endif %}
+
+            </a>
+
+            <div class="daily-album-info">
+
+                <h3>{{ album_of_the_day.title }}</h3>
+
+                <p class="daily-artist">
+                    {{ album_of_the_day.artist.name }}
+                </p>
+
+                {% if album_of_the_day.release_date %}
+                    <p class="detail-meta">
+                        {{ album_of_the_day.release_date|date:"Y" }}
+                    </p>
+                {% endif %}
+
+                <p class="daily-description">
+                    Не знаешь, что послушать сегодня?
+                    Попробуй этот альбом!
+                </p>
+
+                <div class="hero-actions">
+                    <a href="{% url 'album_detail' album_of_the_day.pk %}"
+                       class="button">
+                        Посмотреть альбом
+                    </a>
+
+                    <a href="{% url 'random_album' %}"
+                       class="button button-secondary">
+                        Мне повезёт!
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+            <p>Пока нет альбомов для рекомендаций.</p>
+        </div>
+
+    {% endif %}
+
+</section>
+
+<section class="home-section">
+
+    <div class="home-section-header">
+        <h2 class="section-title">Последние альбомы</h2>
+
+        <a href="{% url 'album_list' %}" class="section-link">
+            Все альбомы
+        </a>
+    </div>
+
+    {% if latest_albums %}
+
+        <div class="card-grid">
+
+            {% for album in latest_albums %}
+
+                <a href="{% url 'album_detail' album.pk %}"
+                   class="catalog-card">
+
+                    {% if album.cover %}
+                        <img
+                            src="{{ album.cover.url }}"
+                            alt="Обложка альбома {{ album.title }}"
+                            class="card-image"
+                            loading="lazy"
+                        >
+                    {% else %}
+                        <div class="card-placeholder">♫</div>
+                    {% endif %}
+
+                    <div class="card-content">
+                        <h3 class="card-title">{{ album.title }}</h3>
+
+                        <p class="card-meta">
+                            {{ album.artist.name }}
+
+                            {% if album.release_date %}
+                                · {{ album.release_date|date:"Y" }}
+                            {% endif %}
+                        </p>
+                    </div>
+
+                </a>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+            <p>Альбомы пока не добавлены.</p>
+        </div>
+
+    {% endif %}
+
+</section>
+
+<section class="home-section">
+
+    <div class="home-section-header">
+        <h2 class="section-title">Исполнители</h2>
+
+        <a href="{% url 'artist_list' %}" class="section-link">
+            Все исполнители
+        </a>
+    </div>
+
+    {% if featured_artists %}
+
+        <div class="card-grid">
+
+            {% for artist in featured_artists %}
+
+                <a href="{% url 'artist_detail' artist.pk %}"
+                   class="catalog-card">
+
+                    {% if artist.image %}
+                        <img
+                            src="{{ artist.image.url }}"
+                            alt="{{ artist.name }}"
+                            class="card-image"
+                            loading="lazy"
+                        >
+                    {% else %}
+                        <div class="card-placeholder">♪</div>
+                    {% endif %}
+
+                    <div class="card-content">
+                        <h3 class="card-title">{{ artist.name }}</h3>
+                        <p class="card-meta">Исполнитель</p>
+                    </div>
+
+                </a>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+            <p>Исполнители пока не добавлены.</p>
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
